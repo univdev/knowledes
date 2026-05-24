@@ -33,7 +33,7 @@ Pushes to `main` build the Docusaurus site and deploy the `build` directory thro
 
 The production URL is:
 
-- `https://univdev.github.io/knowledes/`
+- `https://univdev.page/knowledes/`
 
 ## Branch Protection
 
