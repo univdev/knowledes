@@ -1,0 +1,48 @@
+---
+sidebar_position: 4
+---
+
+# custom UI에는 SafeAreaInsets를 사용하기
+
+## 상태
+
+채택됨
+
+## 날짜
+
+2026-05-24
+
+## 배경
+
+자동/수동 진행 토스트가 너무 높은 위치에 떠서 조작을 방해한다는 피드백이 있었어요.
+처음에는 CSS safe area 값만 고려할 수 있었지만, Apps in Toss에서는 SDK가 제공하는 safe area 값을 쓰는 것이 더 정확해요.
+
+## 결정
+
+Apps in Toss 환경에서는 `SafeAreaInsets.get()`과 `SafeAreaInsets.subscribe()`로 하단 safe area 값을 읽어 CSS 변수에 반영해요.
+일반 브라우저에서는 CSS `env(safe-area-inset-bottom)` fallback을 사용해요.
+
+## 고려한 대안
+
+- 고정 bottom 값만 사용하기
+- CSS env 값만 사용하기
+- Toast를 화면 중앙에 띄우기
+
+## 선택 이유
+
+하단 토스트는 조작 버튼과 홈 인디케이터 사이에 자연스럽게 떠야 해요.
+기기별 safe area를 SDK로 반영하면 Toss 앱 환경에서 더 안정적으로 배치할 수 있어요.
+
+## 트레이드오프
+
+SDK가 없는 브라우저에서는 fallback이 필요해요.
+SafeAreaInsets 구독을 해제하지 않으면 화면 전환 뒤에도 이벤트가 남을 수 있으므로 cleanup이 필요해요.
+
+## 결과와 후속 작업
+
+토스트는 하단 safe area를 고려한 위치로 이동했어요.
+실제 기기에서 iOS 홈 인디케이터와 Android 하단 네비게이션 영역을 추가 확인해야 해요.
+
+## 관련 링크
+
+- [safe area 반영 커밋이 포함된 PR](https://github.com/univdev/charlang/pull/6)
