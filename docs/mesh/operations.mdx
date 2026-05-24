@@ -1,0 +1,84 @@
+---
+sidebar_position: 4
+---
+
+# 운영과 유지보수
+
+## 로컬 실행
+
+```bash
+pnpm install
+pnpm setup:hooks
+pnpm dev
+```
+
+개발 서버는 Granite가 실행하고, 기본 주소는 `http://localhost:5173/`이에요.
+
+## 검증
+
+PR을 열기 전 최소 검증은 다음이에요.
+
+```bash
+pnpm run lint
+pnpm run build
+pnpm run test:e2e
+```
+
+Apps in Toss WebView 특성상 일반 브라우저에서 보이는 결과와 실제 Toss 환경의 safe area, WebView 동작이 다를 수 있어요.
+하단 탭바, FAB, 바텀시트, Drawer, 고정 CTA는 모바일 폭과 800px 폭에서 함께 확인해야 해요.
+
+## 빌드와 배포
+
+```bash
+pnpm build
+pnpm deploy
+```
+
+`pnpm build`는 Apps in Toss용 `.ait` 번들을 만들어요.
+GitHub Actions는 pull request에서 lint와 build를 수행하고, main 또는 master에 병합되면 번들을 Apps in Toss에 업로드해요.
+
+자동 업로드에는 GitHub Actions secret `APPS_IN_TOSS_API_KEY`가 필요해요.
+secret 값은 코드, 문서, 로그에 직접 남기지 않아요.
+자동화는 번들 업로드까지 담당하고, 심사 요청과 최종 출시는 Apps in Toss 콘솔에서 확인하는 흐름으로 남겨요.
+
+## 브랜치와 PR 규칙
+
+main과 master에 직접 커밋하거나 직접 푸시하지 않도록 로컬 git hook을 설치해요.
+
+```bash
+pnpm setup:hooks
+```
+
+작업 순서는 기능 브랜치 생성, 변경, 검증, PR 생성, 리뷰, 병합을 기본으로 해요.
+로컬 훅은 실수 방지 장치이고, GitHub branch protection 또는 ruleset도 별도로 켜야 해요.
+
+## 하네스 기준
+
+범용 UI 피드백은 전역 프론트엔드 UX 가드레일에 둬요.
+Mesh 제품 고유 규칙은 로컬 하네스와 PRD를 우선해요.
+
+Mesh 고유 판단에는 다음 기준을 사용해요.
+
+- 관리자용 앱이며 직원용 앱은 MVP 범위가 아니에요.
+- 서버 연동, 로그인, 클라우드 백업은 백로그예요.
+- 사업장별 데이터는 완전히 분리돼야 해요.
+- 온보딩은 최초 사업장 생성 사용자에게만 보여요.
+- UI 언어는 한국어, 시간 표기는 24시간제예요.
+
+## 출시 전 점검
+
+- Apps in Toss 콘솔의 앱 등록 정보와 WebView 설정이 일치하는지 확인해요.
+- repository secret `APPS_IN_TOSS_API_KEY`가 등록되어 있는지 확인해요.
+- main/master 보호 규칙이 원격 저장소에도 적용되어 있는지 확인해요.
+- 온보딩 완료 후 근무 유형 탭으로 이동하고 가이드 스킵 상태가 저장되는지 확인해요.
+- 근무 유형이 없는 상태에서 근무자 등록 UI가 막히지 않고 근무 유형 추가로 이동하는지 확인해요.
+- 바텀시트와 Drawer는 열림/닫힘 애니메이션, dim 클릭 닫힘, 닫기 버튼 위치를 확인해요.
+
+## 백로그
+
+- 로그인과 클라우드 백업
+- Toss 유저 식별 기반 동기화
+- 직원용 앱 또는 직원 응답 흐름
+- 푸시 알림
+- 서버 기반 다중 기기 동기화
+- 실제 운영 데이터 백업과 복구
