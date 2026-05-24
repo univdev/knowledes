@@ -2,32 +2,37 @@
 sidebar_position: 1
 ---
 
-# Knowledes Documentation
+# Knowledes 운영 가이드
 
-Knowledes 문서는 프로젝트의 판단, 설계, 구현 지식을 오래 유지하기 위한 공식 지식 저장소입니다.
+Knowledes는 개발한 프로젝트들의 지식을 장기적으로 보관하기 위한 GitHub Pages 문서 저장소입니다.
+이 저장소의 목적은 단순 사용법을 모아두는 것이 아니라, 시간이 지나도 사람이거나 AI가 프로젝트의 배경과 의사결정을 추적할 수 있도록 만드는 것입니다.
 
-## 문서 운영 원칙
+## 이 저장소에 기록하는 것
 
-- 구현 의도와 결정 배경을 함께 기록합니다.
-- 반복해서 찾아보는 명령, 규칙, 배포 절차를 문서화합니다.
-- 변경은 기능 브랜치에서 진행하고 `main` 병합은 pull request로만 처리합니다.
+프로젝트별 문서는 다음 정보를 우선해서 기록합니다.
 
-## 로컬 실행
+- 프로젝트가 해결하려는 문제와 대상 사용자
+- 시스템 구조와 주요 기술 선택
+- 핵심 기능의 목적, 흐름, 예외 조건
+- 변경하기 어려운 제약과 외부 의존성
+- 중요한 의사결정의 배경, 대안, 선택 이유
+- 운영, 배포, 장애 대응, 유지보수 절차
 
-```bash
-npm install
-npm run hooks:install
-npm run start
-```
+## 이 저장소에 기록하지 않는 것
 
-## 검증
+다음 정보는 문서에 직접 적지 않습니다.
 
-```bash
-npm run ci
-```
+- API 키, 토큰, 비밀번호, 인증서, 개인 식별 정보
+- 임시 메모, 확정되지 않은 추측, 출처 없는 주장
+- 코드만 보면 즉시 알 수 있는 단순 구현 설명
+- 현재 프로젝트와 무관한 일반 튜토리얼
 
-`npm run ci`는 TypeScript 검증과 Docusaurus production build를 함께 실행합니다.
+## 문서 작성 흐름
 
-## 배포
+1. 새 프로젝트 문서를 만들 때는 `docs/<project-slug>/` 디렉터리를 만든다.
+2. `_category_.json`의 `label`에는 사람이 보는 실제 프로젝트 이름을 적는다.
+3. `index.mdx`에는 프로젝트 전체 개요를 적는다.
+4. `architecture.mdx`, `features.mdx`, `decisions/` 같은 하위 문서를 추가한다.
+5. 변경은 feature branch에서 작성하고 pull request로 병합한다.
 
-`main`에 변경이 병합되면 GitHub Actions가 `build` 결과물을 GitHub Pages에 배포합니다.
+구체적인 작성 규칙은 [프로젝트 문서 구조](./writing/project-structure)를 따른다.

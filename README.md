@@ -26,6 +26,12 @@ npm run ci
 
 This typechecks the site and generates static content in the `build` directory.
 
+## Writing Documentation
+
+Start from `docs/intro.mdx`, then follow `docs/writing/project-structure.mdx`.
+Project documentation should be organized by project name at the top level of `docs/`.
+Each project should include an overview, architecture, major features, and decision records so people and AI agents can recover the context behind past choices.
+
 ## Deployment
 
 GitHub Pages deployment is handled by `.github/workflows/deploy-pages.yml`.

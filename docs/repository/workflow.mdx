@@ -1,0 +1,101 @@
+---
+sidebar_position: 1
+---
+
+# Repository Workflow
+
+이 저장소는 문서 저장소이지만 운영 방식은 제품 코드 저장소처럼 엄격하게 다룹니다.
+문서가 부정확하면 이후 의사결정도 잘못될 수 있기 때문에, 모든 변경은 검증 가능한 형태로 남겨야 합니다.
+
+## 로컬 준비
+
+처음 clone한 뒤 한 번만 실행합니다.
+
+```bash
+npm install
+npm run hooks:install
+```
+
+`npm run hooks:install`은 Git hook 경로를 `.githooks`로 설정합니다.
+이 훅은 `main`과 `master`에서 직접 커밋하거나 직접 푸시하는 일을 막습니다.
+
+## 개발 서버
+
+```bash
+npm run start
+```
+
+로컬 개발 서버는 기본적으로 다음 주소에서 실행됩니다.
+
+```text
+http://localhost:3000/knowledes/
+```
+
+배포 결과물과 가까운 형태로 확인하려면 다음 명령을 사용합니다.
+
+```bash
+npm run build
+npm run serve
+```
+
+## 검증
+
+pull request를 열기 전에 다음 명령을 실행합니다.
+
+```bash
+npm run ci
+```
+
+이 명령은 TypeScript 검증과 Docusaurus production build를 함께 실행합니다.
+문서 링크가 깨졌거나 MDX 문법이 잘못되면 build 단계에서 실패합니다.
+
+## 브랜치 전략
+
+문서 변경은 항상 목적이 분명한 feature branch에서 진행합니다.
+
+```bash
+git switch -c docs/<short-topic>
+```
+
+좋은 브랜치 이름은 변경 의도를 드러냅니다.
+
+- `docs/add-project-overview-guide`
+- `docs/update-deployment-runbook`
+- `docs/record-auth-decision`
+
+## 병합 규칙
+
+`main`은 GitHub ruleset으로 보호됩니다.
+변경은 반드시 pull request를 통해 병합합니다.
+
+PR에는 다음 내용을 포함합니다.
+
+- 무엇을 바꿨는지
+- 왜 바꿨는지
+- 어떤 문서가 새 기준이 되는지
+- `npm run ci` 실행 결과
+
+문서 변경이라도 “나중에 보면 왜 바꿨는지 알 수 있는가”를 기준으로 작성합니다.
+
+## 배포
+
+`main`에 PR이 병합되면 GitHub Actions가 자동으로 Docusaurus site를 빌드하고 GitHub Pages에 배포합니다.
+
+배포 URL은 다음과 같습니다.
+
+```text
+https://univdev.page/knowledes/
+```
+
+배포 워크플로는 `.github/workflows/deploy-pages.yml`에 있습니다.
+CI 워크플로는 `.github/workflows/ci.yml`에 있습니다.
+
+## 보호 규칙 재적용
+
+GitHub ruleset을 다시 적용해야 할 때는 관리자 권한으로 다음 명령을 실행합니다.
+
+```bash
+npm run protect:github
+```
+
+이 규칙은 `main`에 대해 pull request를 요구하고, 필수 체크를 통과하지 않은 변경을 막으며, force push와 branch 삭제를 차단합니다.
