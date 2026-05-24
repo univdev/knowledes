@@ -1,0 +1,33 @@
+---
+sidebar_position: 1
+---
+
+# Knowledes Documentation
+
+Knowledes 문서는 프로젝트의 판단, 설계, 구현 지식을 오래 유지하기 위한 공식 지식 저장소입니다.
+
+## 문서 운영 원칙
+
+- 구현 의도와 결정 배경을 함께 기록합니다.
+- 반복해서 찾아보는 명령, 규칙, 배포 절차를 문서화합니다.
+- 변경은 기능 브랜치에서 진행하고 `main` 병합은 pull request로만 처리합니다.
+
+## 로컬 실행
+
+```bash
+npm install
+npm run hooks:install
+npm run start
+```
+
+## 검증
+
+```bash
+npm run ci
+```
+
+`npm run ci`는 TypeScript 검증과 Docusaurus production build를 함께 실행합니다.
+
+## 배포
+
+`main`에 변경이 병합되면 GitHub Actions가 `build` 결과물을 GitHub Pages에 배포합니다.

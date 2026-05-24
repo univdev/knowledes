@@ -1,0 +1,47 @@
+# Knowledes Documentation
+
+This repository contains the GitHub Pages documentation site for Knowledes.
+It is built with [Docusaurus](https://docusaurus.io/) 3.10.1.
+
+## Installation
+
+```bash
+npm install
+npm run hooks:install
+```
+
+## Local Development
+
+```bash
+npm run start
+```
+
+The development server runs at `http://localhost:3000/knowledes/`.
+
+## Build
+
+```bash
+npm run ci
+```
+
+This typechecks the site and generates static content in the `build` directory.
+
+## Deployment
+
+GitHub Pages deployment is handled by `.github/workflows/deploy-pages.yml`.
+Pushes to `main` build the Docusaurus site and deploy the `build` directory through GitHub Pages Actions.
+
+The production URL is:
+
+- `https://univdev.github.io/knowledes/`
+
+## Branch Protection
+
+Local hooks block commits and pushes directly on `main`/`master`.
+After the first `main` branch exists on GitHub, apply the repository ruleset:
+
+```bash
+npm run protect:github
+```
+
+The ruleset requires pull requests for `main`, requires the `Build and Typecheck` check, blocks force pushes, and blocks branch deletion.

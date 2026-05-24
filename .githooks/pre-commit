@@ -1,0 +1,12 @@
+#!/bin/sh
+set -eu
+
+branch="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+
+case "$branch" in
+  main|master)
+    echo "Direct commits to $branch are blocked. Create a feature branch and open a PR." >&2
+    exit 1
+    ;;
+esac
+
