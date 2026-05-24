@@ -36,7 +36,6 @@ cat >"$payload" <<JSON
         "require_code_owner_review": false,
         "require_last_push_approval": false,
         "required_review_thread_resolution": true,
-        "automatic_copilot_code_review_enabled": false,
         "allowed_merge_methods": ["merge", "squash", "rebase"]
       }
     },
@@ -75,4 +74,3 @@ else
   gh api --method POST "repos/$OWNER/$REPO/rulesets" --input "$payload" >/dev/null
   echo "Created repository ruleset '$RULESET_NAME' for $OWNER/$REPO."
 fi
-
