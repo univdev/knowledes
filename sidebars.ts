@@ -15,6 +15,27 @@ const sidebars: SidebarsConfig = {
       label: 'Writing Guide',
       items: ['writing/project-structure'],
     },
+    {
+      type: 'category',
+      label: '찰랑',
+      items: [
+        'charlang/index',
+        'charlang/architecture',
+        'charlang/features',
+        'charlang/operations',
+        {
+          type: 'category',
+          label: 'Decisions',
+          items: [
+            'charlang/decisions/build-as-apps-in-toss-webview',
+            'charlang/decisions/use-local-device-storage-for-mvp',
+            'charlang/decisions/require-branch-and-pr-flow',
+            'charlang/decisions/use-safe-area-insets-for-custom-ui',
+            'charlang/decisions/use-stepper-for-session-duration',
+          ],
+        },
+      ],
+    },
   ],
 };
 

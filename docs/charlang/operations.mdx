@@ -1,0 +1,87 @@
+---
+sidebar_position: 4
+---
+
+# 운영과 유지보수
+
+## 로컬 실행
+
+```bash
+npm install
+npm run hooks:install
+npm run dev
+```
+
+개발 서버는 Granite가 실행해요.
+보통 `http://localhost:5173/`에서 확인해요.
+
+## 검증
+
+PR을 열기 전 최소 검증은 다음이에요.
+
+```bash
+npm run lint
+npm run build
+```
+
+Apps in Toss SDK를 쓰는 기능은 일반 브라우저에서 fallback도 확인해야 해요.
+광고, 햅틱, Safe Area, 배포는 실제 Apps in Toss 환경에서 한 번 더 확인해야 해요.
+
+## 빌드와 배포
+
+```bash
+npm run build
+npm run deploy
+```
+
+`npm run build`는 Apps in Toss 번들을 만들어요.
+GitHub Actions는 `master` 또는 `main`에 push되면 lint, build, artifact upload, Apps in Toss bundle upload를 실행해요.
+
+자동 업로드에는 GitHub Actions secret `APPS_IN_TOSS_API_KEY`가 필요해요.
+secret 값은 문서, 코드, 로그에 남기지 않아요.
+자동화는 번들 업로드까지 담당하고, 심사 제출과 실제 출시는 Apps in Toss 콘솔에서 확인하는 흐름으로 봐야 해요.
+
+## 브랜치와 PR 규칙
+
+`master`와 `main`에 직접 커밋하거나 직접 푸시하지 않도록 git hook을 설치해요.
+
+```bash
+npm run hooks:install
+```
+
+작업 순서는 다음을 기본으로 해요.
+
+1. `master`를 최신화해요.
+2. 기능 브랜치를 만들어요.
+3. 변경하고 검증해요.
+4. 한국어 PR을 작성해요.
+5. PR 병합 뒤 `master`를 다시 최신화해요.
+
+PR 본문은 파일 경로를 나열하지 않고, 처음 개발을 시작한 사람도 이해할 수 있는 난이도로 적어요.
+문체는 Toss 앱의 결에 맞춰 `-요` 체를 사용해요.
+
+## Safe Area와 WebView
+
+하단 토스트와 조작 버튼은 safe area를 고려해야 해요.
+Apps in Toss 환경에서는 `SafeAreaInsets.get()`과 `SafeAreaInsets.subscribe()`를 우선 사용하고, 일반 브라우저에서는 CSS `env(safe-area-inset-bottom)` fallback을 사용해요.
+
+홈 화면은 기본적으로 viewport 안에 들어오도록 설계해요.
+다만 아주 작은 해상도에서는 세로 스크롤이 필요할 수 있으므로 완전 차단하지 않고, 오버스크롤 고무줄 효과만 억제해요.
+
+## 출시 전 점검
+
+- Apps in Toss 콘솔의 앱 등록명과 `granite.config.ts` 표시 이름이 일치하는지 확인해요.
+- 테스트 광고 그룹 ID가 남아 있으면 실제 광고 그룹 ID로 교체해요.
+- 앱 내부 커스텀 뒤로가기 버튼이 없는지 확인해요.
+- input 포커스 확대를 만드는 UI가 없는지 확인해요.
+- iOS safe area와 Android navigation area에서 조작 버튼과 토스트가 겹치지 않는지 확인해요.
+- 실제 기기에서 AudioContext unlock, 틱톡 루프, 종료음, 햅틱을 확인해요.
+
+## 백로그
+
+- 화이트노이즈나 배경음 재생 시스템
+- 세션별 틱톡음 5종 선택 UI
+- 세션별 종료음 선택 UI
+- Toss 유저 식별키 기반 동기화 저장
+- 실제 광고 그룹 ID 교체와 수익화 설정
+- 출시 심사 이후 운영 지표 확인
