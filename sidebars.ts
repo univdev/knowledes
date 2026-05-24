@@ -36,6 +36,24 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: '근무안심',
+      items: [
+        'mesh/index',
+        'mesh/architecture',
+        'mesh/features',
+        'mesh/operations',
+        {
+          type: 'category',
+          label: 'Decisions',
+          items: [
+            'mesh/decisions/use-local-first-mvp',
+            'mesh/decisions/automate-ait-upload-and-protect-main',
+          ],
+        },
+      ],
+    },
   ],
 };
 

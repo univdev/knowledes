@@ -1,0 +1,47 @@
+---
+sidebar_position: 2
+---
+
+# Apps in Toss 업로드 자동화와 main 보호하기
+
+## 상태
+
+채택됨
+
+## 날짜
+
+2026-05-25
+
+## 배경
+
+Apps in Toss 프로젝트는 번들 생성과 업로드 절차가 반복돼요.
+동시에 main 또는 master에 직접 커밋하거나 직접 푸시하면 PR 검증 없이 배포 흐름이 진행될 수 있어요.
+
+## 결정
+
+GitHub Actions로 pull request에서는 lint와 build를 실행하고, main 또는 master에 병합되면 Apps in Toss 번들을 업로드해요.
+배포 API 키는 repository secret `APPS_IN_TOSS_API_KEY`에만 저장해요.
+로컬 git hook으로 main과 master 직접 커밋, 직접 푸시를 막아요.
+
+## 고려한 대안
+
+- 개발자가 로컬에서 매번 수동으로 업로드하기
+- Actions에서 심사 요청과 최종 출시까지 자동화하기
+- 로컬 hook 없이 GitHub branch protection만 사용하기
+
+## 선택 이유
+
+번들 업로드는 반복 작업이라 자동화 가치가 높아요.
+하지만 심사 요청과 실제 출시는 콘솔에서 사람이 확인하는 편이 안전해요.
+로컬 hook은 실수를 즉시 막고, GitHub branch protection은 원격에서 한 번 더 보호하는 역할을 해요.
+
+## 트레이드오프
+
+repository secret이 없으면 자동 업로드는 실패해요.
+로컬 hook은 사용자가 설치해야 하므로 원격 branch protection을 별도로 설정해야 해요.
+GitHub Actions는 번들 업로드까지만 담당하므로 출시 완료는 별도 운영 절차가 필요해요.
+
+## 결과와 후속 작업
+
+Mesh에는 배포 워크플로우, 훅 설치 스크립트, main/master 보호 훅이 들어갔어요.
+저장소 운영자는 GitHub secret과 branch protection을 설정해야 해요.
