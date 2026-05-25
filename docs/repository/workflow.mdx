@@ -90,6 +90,27 @@ https://univdev.page/knowledes/
 배포 워크플로는 `.github/workflows/deploy-pages.yml`에 있습니다.
 CI 워크플로는 `.github/workflows/ci.yml`에 있습니다.
 
+## GitHub Actions 런타임
+
+CI와 GitHub Pages 배포 workflow는 Node.js 24 기준으로 실행해요.
+GitHub Actions의 JavaScript action 런타임도 Node.js 24로 강제해요.
+
+workflow에는 다음 환경 변수를 둬요.
+
+```yaml
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+```
+
+이 설정은 GitHub Actions의 Node.js 20 런타임 사용 경고를 미리 없애고, GitHub가 Node.js 24를 기본값으로 전환한 뒤에도 같은 조건에서 검증되게 해요.
+
+관련 action 버전은 다음 기준으로 유지해요.
+
+- `actions/setup-node@v6`
+- `actions/configure-pages@v6`
+- `actions/upload-pages-artifact@v5`
+- `actions/deploy-pages@v5`
+
 ## 보호 규칙 재적용
 
 GitHub ruleset을 다시 적용해야 할 때는 관리자 권한으로 다음 명령을 실행합니다.
