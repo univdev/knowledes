@@ -1,0 +1,51 @@
+---
+sidebar_position: 4
+---
+
+# 전역 하네스 운영 방법
+
+전역 하네스는 로컬 Codex 설정을 직접 바꾸기 때문에 변경 후 확인 절차를 남기는 것이 중요해요.
+
+## 주요 파일
+
+- `/Users/univdev/.codex/AGENTS.md`
+- `/Users/univdev/.codex/agents/knowledes-documenter.md`
+- `/Users/univdev/.codex/agents/knowledes-context-researcher.md`
+- `/Users/univdev/.codex/agents/pull-request-manager.md`
+
+## 변경 절차
+
+전역 하네스 규칙을 바꿀 때는 다음 순서로 진행해요.
+
+1. 기존 `AGENTS.md`와 관련 에이전트 파일을 읽어요.
+2. 오케스트레이터에 넣을 내용과 서브에이전트에 넣을 내용을 나눠요.
+3. 발동 조건은 `AGENTS.md`에 남겨요.
+4. 실제 작업 규칙은 전용 에이전트 파일에 남겨요.
+5. 변경된 규칙이 서로 충돌하지 않는지 검색으로 확인해요.
+6. 중요한 변경은 Knowledes의 전역 하네스 문서에 적재해요.
+
+## Knowledes 적재 절차
+
+전역 하네스 변경을 문서화할 때는 Knowledes 저장소에서 새 브랜치를 만들어요.
+
+```bash
+git switch main
+git pull --ff-only origin main
+git switch -c docs/<short-topic>
+```
+
+문서를 수정한 뒤에는 검증을 실행해요.
+
+```bash
+npm run ci
+```
+
+검증이 끝나면 PR을 열고, 저장소 보호 규칙에 맞춰 병합해요.
+PR 제목과 본문은 한국어로 작성해요.
+
+## 운영 시 주의할 점
+
+- 전역 하네스는 모든 프로젝트에 영향을 줄 수 있어요.
+- 특정 프로젝트에만 필요한 규칙은 해당 프로젝트의 `AGENTS.md`나 `.Codex/skills`에 두는 편이 좋아요.
+- 전역 규칙은 짧게 유지하고, 상세 절차는 서브에이전트 파일로 분리해요.
+- Knowledes 문서에는 secret 값이나 개인 인증 정보를 쓰지 않아요.

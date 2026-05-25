@@ -1,0 +1,8 @@
+{
+  "label": "전역 하네스",
+  "position": 30,
+  "link": {
+    "type": "doc",
+    "id": "global-harness/index"
+  }
+}
