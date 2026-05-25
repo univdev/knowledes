@@ -54,6 +54,24 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
+    {
+      type: 'category',
+      label: '전역 하네스',
+      items: [
+        'global-harness/index',
+        'global-harness/architecture',
+        'global-harness/features',
+        'global-harness/operations',
+        {
+          type: 'category',
+          label: 'Decisions',
+          items: [
+            'global-harness/decisions/separate-knowledge-work-into-subagents',
+            'global-harness/decisions/require-korean-pr-writing',
+          ],
+        },
+      ],
+    },
   ],
 };
 
