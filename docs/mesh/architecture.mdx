@@ -45,14 +45,19 @@ sidebar_position: 2
 ## 외부 의존성
 
 - Apps in Toss Web Framework: WebView 설정, 번들 빌드, Apps in Toss 배포 업로드
+- TDS Mobile: 키보드 위에 고정되는 단일 하단 CTA, safe area를 고려한 모바일 UI 컴포넌트
 - React/Vite: 프론트엔드 런타임과 개발 서버
 - Radix/shadcn 계열 컴포넌트: Select, Sheet, Dialog 등 접근성 있는 오버레이와 입력 컴포넌트
+- Swiper: 일정 탭의 주간 캘린더 좌우 스와이프
 - Playwright: 주요 UI 흐름의 E2E 검증
 - GitHub Actions: PR 빌드 검증과 main/master 병합 후 번들 업로드
 
 ## 바꾸면 위험한 부분
 
 - 사업장별 데이터 분리 규칙을 깨면 다른 사업장의 근무자와 일정이 섞일 수 있어요.
-- 캘린더 셀 표시는 실제 근무자를 기준으로 해야 하므로, 불참한 원래 근무자를 같은 가중치로 보여주면 관리자가 오해할 수 있어요.
+- 일정 탭의 주간 캘린더, 선택 날짜, 타임라인은 함께 움직여야 해요. 캘린더만 이동하거나 선택 날짜만 바뀌면 하단 일정 목록의 기준일이 불명확해져요.
+- 타임라인 fade/scale 효과는 실제 스크롤 컨테이너의 보이는 영역을 기준으로 계산해야 해요. 화면 전체를 기준으로 잡으면 상단 캘린더나 탭바 아래에서 카드가 갑자기 잘려 보여요.
+- 일정 카드는 실제 근무자를 기준으로 해야 하므로, 불참한 원래 근무자를 같은 가중치로 보여주면 관리자가 오해할 수 있어요.
 - Apps in Toss WebView에서는 safe area, 하단 CTA, FAB, 탭바가 겹치지 않아야 해요.
+- 키보드 대응 단일 CTA는 TDS Mobile `BottomCTA.Single`의 `fixedAboveKeyboard`를 사용해요. `BottomCTA.Double`은 같은 속성을 지원하지 않으므로 수정/삭제처럼 두 액션이 필요한 화면에 무리하게 적용하지 않아요.
 - 배포 API 키는 GitHub Actions secret으로만 관리하고 저장소에 직접 기록하면 안 돼요.
