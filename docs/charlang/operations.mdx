@@ -41,6 +41,19 @@ GitHub Actions는 `master` 또는 `main`에 push되면 lint, build, artifact upl
 secret 값은 문서, 코드, 로그에 남기지 않아요.
 자동화는 번들 업로드까지 담당하고, 심사 제출과 실제 출시는 Apps in Toss 콘솔에서 확인하는 흐름으로 봐야 해요.
 
+## 환경변수
+
+광고 그룹 ID는 env 파일이나 배포 환경변수로 관리해요.
+로컬 `.env`는 git에 올리지 않아요.
+
+필요한 값은 다음과 같아요.
+
+- `VITE_TIMER_BANNER_AD_GROUP_ID`: 타이머 화면 배너 광고 그룹 ID
+- `VITE_CHART_BANNER_AD_GROUP_ID`: 차트 화면 배너 광고 그룹 ID
+
+전면형 광고 그룹 ID도 출시 전 실제 값으로 교체해야 해요.
+문서, PR 본문, 로그에는 실제 secret이나 민감한 키 값을 직접 남기지 않아요.
+
 ## 브랜치와 PR 규칙
 
 `master`와 `main`에 직접 커밋하거나 직접 푸시하지 않도록 git hook을 설치해요.
@@ -71,7 +84,7 @@ Apps in Toss 환경에서는 `SafeAreaInsets.get()`과 `SafeAreaInsets.subscribe
 ## 출시 전 점검
 
 - Apps in Toss 콘솔의 앱 등록명과 `granite.config.ts` 표시 이름이 일치하는지 확인해요.
-- 테스트 광고 그룹 ID가 남아 있으면 실제 광고 그룹 ID로 교체해요.
+- 타이머 배너, 차트 배너, 전면형 광고 그룹 ID가 실제 운영 값으로 연결되어 있는지 확인해요.
 - 앱 내부 커스텀 뒤로가기 버튼이 없는지 확인해요.
 - input 포커스 확대를 만드는 UI가 없는지 확인해요.
 - iOS safe area와 Android navigation area에서 조작 버튼과 토스트가 겹치지 않는지 확인해요.
