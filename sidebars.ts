@@ -32,6 +32,7 @@ const sidebars: SidebarsConfig = {
             'charlang/decisions/require-branch-and-pr-flow',
             'charlang/decisions/use-safe-area-insets-for-custom-ui',
             'charlang/decisions/use-stepper-for-session-duration',
+            'charlang/decisions/gate-interstitial-ad-before-short-break',
           ],
         },
       ],
