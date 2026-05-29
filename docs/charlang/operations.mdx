@@ -29,6 +29,8 @@ git diff --check
 Apps in Toss SDK를 쓰는 기능은 일반 브라우저에서 fallback도 확인해야 해요.
 광고, 햅틱, Safe Area, 배포는 실제 Apps in Toss 환경에서 한 번 더 확인해야 해요.
 IAP 기능은 브라우저에서는 bridge 미지원 실패 안내까지만 확인할 수 있으므로, 구매, 지급 완료, 미결 주문 복원, 환불 회수는 Apps in Toss sandbox나 실제 지원 환경에서 별도로 확인해야 해요.
+Apps in Toss 이벤트 로그는 샌드박스와 QR 테스트 환경에서는 실제로 집계되지 않아요.
+라이브 출시 후 다음 날부터 콘솔의 분석 > 이벤트 화면에서 수집 여부를 확인해야 해요.
 
 ## 빌드와 배포
 
@@ -94,6 +96,7 @@ Apps in Toss 환경에서는 `SafeAreaInsets.get()`과 `SafeAreaInsets.subscribe
 - Apps in Toss IAP 상품이 판매 가능 상태이고, PRO SKU가 코드와 콘솔에서 일치하는지 확인해요.
 - PRO 구매 성공 직후 배너와 휴식 전 광고가 새로고침 없이 사라지는지 확인해요.
 - 미결 주문 복원과 완료/환불 주문 보정이 실제 Apps in Toss 환경에서 동작하는지 확인해요.
+- 라이브 출시 후 콘솔 분석 화면에서 튜토리얼, 타이머 조작, PRO 구매 퍼널 이벤트가 들어오는지 확인해요.
 - 앱 내부 커스텀 뒤로가기 버튼이 없는지 확인해요.
 - input 포커스 확대를 만드는 UI가 없는지 확인해요.
 - iOS safe area와 Android navigation area에서 조작 버튼과 토스트가 겹치지 않는지 확인해요.
