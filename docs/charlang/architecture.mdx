@@ -80,7 +80,8 @@ Apps in Toss IAP의 일회성 구매를 요청하고, 상품 지급 성공 시 A
 PRO 상태에서는 배너 SDK 초기화와 attach를 하지 않고 `null`을 렌더링해요.
 
 `analytics` 헬퍼는 Apps in Toss `Analytics`와 `eventLog`를 얇게 감싸요.
-화면 진입, 튜토리얼 완료, 타이머 주요 버튼, PRO 구매 흐름처럼 분석 가치가 있는 이벤트만 기록하고, 로깅 실패가 타이머 동작을 막지 않도록 예외를 삼켜요.
+화면 진입, 클릭, 노출, 튜토리얼 완료, 타이머 주요 버튼, PRO 구매 흐름처럼 분석 가치가 있는 이벤트만 기록하고, 로깅 실패가 타이머 동작을 막지 않도록 예외를 삼켜요.
+화면 노출은 `logScreen`, 클릭은 `logClick`, 노출형 UI 로그는 `logImpression`, 그 외 상태 변화는 `logEvent`로 구분해요.
 
 ## 데이터 흐름
 
@@ -109,6 +110,8 @@ IAP bridge가 없는 브라우저에서는 구매 실패 안내만 보여주고 
 
 Apps in Toss Analytics는 화면 진입과 클릭/이벤트 로그 적재에 사용돼요.
 샌드박스나 QR 테스트 환경에서는 이벤트가 실제로 집계되지 않고, 라이브 출시 후 다음 날부터 콘솔의 분석 화면에서 확인할 수 있어요.
+노출 로그는 Apps in Toss `Analytics.impression`을 통해 남겨요.
+찰랑에서는 차트 헤더처럼 사용자가 화면에서 실제로 본 문구를 분석해야 하는 영역에 사용해요.
 
 배포 자동화는 GitHub Actions에서 `APPS_IN_TOSS_API_KEY` secret을 읽어 `npx ait deploy`를 실행해요.
 문서와 코드에는 실제 키 값을 남기지 않아요.
