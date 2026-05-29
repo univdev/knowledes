@@ -79,6 +79,9 @@ Apps in Toss IAP의 일회성 구매를 요청하고, 상품 지급 성공 시 A
 브라우저 개발 환경에서는 지원 여부 확인과 예외 처리를 통해 화면이 깨지지 않게 해요.
 PRO 상태에서는 배너 SDK 초기화와 attach를 하지 않고 `null`을 렌더링해요.
 
+`analytics` 헬퍼는 Apps in Toss `Analytics`와 `eventLog`를 얇게 감싸요.
+화면 진입, 튜토리얼 완료, 타이머 주요 버튼, PRO 구매 흐름처럼 분석 가치가 있는 이벤트만 기록하고, 로깅 실패가 타이머 동작을 막지 않도록 예외를 삼켜요.
+
 ## 데이터 흐름
 
 사용자가 시작 버튼을 누르면 AudioContext를 unlock하고 타이머가 `running` 상태로 바뀌어요.
@@ -103,6 +106,9 @@ SDK가 없는 일반 브라우저에서는 try/catch와 fallback을 사용해야
 
 Apps in Toss IAP는 PRO 광고 제거 구매, 미결 주문 조회, 완료/환불 주문 조회, 상품 지급 완료 처리에 사용돼요.
 IAP bridge가 없는 브라우저에서는 구매 실패 안내만 보여주고 타이머 흐름은 유지해야 해요.
+
+Apps in Toss Analytics는 화면 진입과 클릭/이벤트 로그 적재에 사용돼요.
+샌드박스나 QR 테스트 환경에서는 이벤트가 실제로 집계되지 않고, 라이브 출시 후 다음 날부터 콘솔의 분석 화면에서 확인할 수 있어요.
 
 배포 자동화는 GitHub Actions에서 `APPS_IN_TOSS_API_KEY` secret을 읽어 `npx ait deploy`를 실행해요.
 문서와 코드에는 실제 키 값을 남기지 않아요.
