@@ -34,7 +34,7 @@ PRO 상태가 true가 되면 배너 광고 컴포넌트는 렌더링하지 않�
 이후 `feature/refine-pro-confetti-and-spacing`에서 구매 경험을 다듬었어요.
 PRO 버튼은 명시적인 z-index로 물결, 광고, 성공 효과와 겹칠 때도 의도한 위치에 남기고, 탭 햅틱과 구매 중 spinner를 추가해 중복 요청과 무반응처럼 보이는 상태를 줄였어요.
 구매 성공 효과는 `react-confetti-boom`의 firework로 바꾸고, 다이얼로그 문구는 광고 슬롯 설명보다 집중이 끊기지 않는 이점을 먼저 말하도록 정리했어요.
-또 광고 제거 직후에도 타이머 조작 영역의 세로 간격을 보존해서 결제 보상 때문에 주요 조작 버튼 위치가 갑자기 움직이지 않게 했어요.
+또 후속 `feature/lower-pro-timer-controls` 브랜치에서는 PRO 상태의 빈 배너 placeholder를 제거하고, 타이머 조작 영역이 하단 Safe Area만 피해서 최대한 아래에 붙도록 조정했어요.
 
 ## 고려한 대안
 
@@ -74,6 +74,7 @@ Font Awesome 왕관 아이콘을 쓰기 위해 패키지 의존성이 추가됐�
 PRD도 인앱결제를 범위 밖에서 제외하고 PRO 광고 제거를 현재 기능 범위에 포함하도록 갱신했어요.
 
 후속 `feature/refine-pro-confetti-and-spacing` 브랜치에서는 PRO 버튼 레이어와 햅틱, 구매 중 spinner, 혜택 중심 다이얼로그 문구, fade-out 닫힘 애니메이션, `react-confetti-boom` firework 효과, 광고 제거 후 조작 영역 간격 보존을 추가했어요.
+이후 `feature/lower-pro-timer-controls` 브랜치에서는 실제 기기 확인 결과 버튼이 너무 위로 올라온 문제를 반영해, PRO 상태에서는 광고 placeholder를 렌더링하지 않고 하단 Safe Area만큼만 여백을 남기는 방향으로 조정했어요.
 
 검증은 TypeScript `noEmit`, lint, production build, `git diff --check`를 통과했어요.
 Apps in Toss IAP 실제 구매, 상품 지급 완료, 미결 주문 복원, 환불 회수는 sandbox 또는 실제 앱 환경에서 최종 확인해야 해요.
