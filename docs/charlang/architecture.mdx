@@ -12,6 +12,7 @@ React 화면, 타이머 상태 훅, Audio API 훅, 로컬 저장소, Apps in Tos
 ```text
 Toss App WebView
   -> React App
+    -> First Run Tutorial
     -> Timer Page
       -> Wave Canvas
       -> Banner Ad
@@ -52,8 +53,13 @@ Toss App WebView
 `TimerPage`는 조작과 표시를 담당해요.
 시작, 멈추기, 이어하기, 다음 구간, 자동/직접 넘김, 볼륨, 차트 이동, 시간 조정 다이얼로그를 표시해요.
 
+`FirstRunTutorialPage`는 첫 접속 사용자에게만 타이머 진입 전 3페이지 설명을 보여줘요.
+완료 여부는 Apps in Toss Storage 래퍼를 통해 `charlang:tutorial-seen:v1`에 저장하고, 브라우저 개발 환경에서는 localStorage fallback을 사용해요.
+hash route를 추가하지 않고 App 레벨에서 timer route 렌더링 전에만 가로채기 때문에 Toss 기본 네비게이션 흐름을 바꾸지 않아요.
+
 `WaveCanvas`는 진행률과 세션 색상만 받아서 그려요.
 집중과 긴 휴식은 물이 차오르고, 짧은 휴식은 물이 빠지는 방향으로 보여줘요.
+튜토리얼에서도 같은 컴포넌트를 재사용하고, 화면별 진행률과 전환 시간만 별도 props로 조정해요.
 
 `ChartPage`는 저장된 통계만 읽어서 최근 30일 막대 차트와 누적 시간 도넛 차트를 그려요.
 타이머가 실행 중이어도 차트 페이지로 이동할 수 있고, 타이머 상태는 유지돼요.
