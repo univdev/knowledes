@@ -160,8 +160,8 @@ PRO 버튼은 물결 Canvas, 광고 영역, 성공 효과 위에서도 의도한
 정상 구매 흐름에서는 상품 목록에서 PRO SKU가 있는지 확인한 뒤 `createOneTimePurchaseOrder`로 일회성 결제를 요청해요.
 Apps in Toss가 `processProductGrant`를 호출하면 PRO 소유 상태를 Storage에 저장하고 상품 지급 완료를 반환해요.
 성공 직후 앱은 `react-confetti-boom`의 firework 효과와 함께 3초 동안 `PRO 달성` 축하 오버레이를 보여주고, 현재 화면의 광고를 즉시 비활성화해요.
-광고가 사라져도 타이머 조작 버튼 주변의 세로 간격은 유지해요.
-결제 보상은 바로 체감시키되, 손가락이 있던 조작 위치가 갑자기 움직이지 않게 하기 위해서예요.
+광고가 사라진 뒤에는 빈 광고 영역을 남기지 않고, 타이머 조작 버튼을 하단 Safe Area 위로 최대한 내려요.
+결제 보상은 바로 체감시키되, 시작 버튼이 지나치게 위로 떠 보이지 않도록 한 손 조작 위치를 우선해요.
 
 앱 시작 시에는 저장된 PRO 상태를 먼저 복원해요.
 그 뒤 IAP bridge가 가능하면 `getPendingOrders`로 미결 주문을 확인하고, 해당 주문은 PRO 지급 후 `completeProductGrant`로 지급 완료 처리해요.
