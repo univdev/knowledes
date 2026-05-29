@@ -20,6 +20,9 @@ Toss App WebView
     -> Chart Page
       -> Chart.js
       -> Banner Ad
+    -> useProPurchase
+      -> Apps in Toss IAP
+      -> Apps in Toss Storage
     -> useCharlangTimer
       -> local storage
       -> domain rules
@@ -27,6 +30,7 @@ Toss App WebView
       -> Web Audio API
     -> Apps in Toss SDK
       -> Ads
+      -> IAP
       -> Haptics
       -> SafeAreaInsets
 ```
@@ -38,6 +42,7 @@ Toss App WebView
 - TDS Mobile 계열 패키지
 - Chart.js
 - lucide-react
+- Font Awesome
 - Web Audio API
 - Canvas 2D API
 - local storage 기반 저장
@@ -64,8 +69,13 @@ hash route를 추가하지 않고 App 레벨에서 timer route 렌더링 전에�
 `ChartPage`는 저장된 통계만 읽어서 최근 30일 막대 차트와 누적 시간 도넛 차트를 그려요.
 타이머가 실행 중이어도 차트 페이지로 이동할 수 있고, 타이머 상태는 유지돼요.
 
+`useProPurchase`는 PRO 광고 제거 소유 상태의 단일 진입점이에요.
+Apps in Toss IAP의 일회성 구매를 요청하고, 상품 지급 성공 시 Apps in Toss Storage 래퍼에 소유 상태를 저장해요.
+앱 시작 시 저장된 PRO 상태를 먼저 복원한 뒤, IAP bridge가 지원되면 미결 주문과 완료/환불 주문을 조회해 지급 완료와 환불 회수를 보정해요.
+
 `BannerAd`는 Apps in Toss 광고 SDK를 감싸요.
 브라우저 개발 환경에서는 지원 여부 확인과 예외 처리를 통해 화면이 깨지지 않게 해요.
+PRO 상태에서는 배너 SDK 초기화와 attach를 하지 않고 `null`을 렌더링해요.
 
 ## 데이터 흐름
 
@@ -89,6 +99,9 @@ Apps in Toss SDK는 광고, 햅틱, Safe Area 계산에 사용돼요.
 SDK가 없는 일반 브라우저에서는 try/catch와 fallback을 사용해야 해요.
 초기 개발 중 브라우저에서 흰 화면이 뜬 원인은 앱 환경 전용 API를 방어하지 않고 호출한 것이었고, 이후 지원 여부 확인을 추가했어요.
 
+Apps in Toss IAP는 PRO 광고 제거 구매, 미결 주문 조회, 완료/환불 주문 조회, 상품 지급 완료 처리에 사용돼요.
+IAP bridge가 없는 브라우저에서는 구매 실패 안내만 보여주고 타이머 흐름은 유지해야 해요.
+
 배포 자동화는 GitHub Actions에서 `APPS_IN_TOSS_API_KEY` secret을 읽어 `npx ait deploy`를 실행해요.
 문서와 코드에는 실제 키 값을 남기지 않아요.
 
@@ -99,3 +112,5 @@ SDK가 없는 일반 브라우저에서는 try/catch와 fallback을 사용해야
 - 짧은 휴식 물결은 진행률이 반대로 계산돼야 해요.
 - custom toast와 하단 조작 영역은 Apps in Toss `SafeAreaInsets`와 CSS env fallback을 함께 고려해야 해요.
 - 세션 시간 조정은 input focus 확대를 피하기 위해 버튼 기반으로 유지해야 해요.
+- PRO 상태가 바뀌면 배너, 짧은 휴식 전면형 광고, 긴 휴식 광고 흐름이 모두 즉시 비활성화돼야 해요.
+- IAP 주문 보정은 환불 주문을 PRO 회수로 처리해야 하므로 단순 로컬 플래그만 믿으면 안 돼요.

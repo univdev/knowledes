@@ -20,12 +20,15 @@ npm run dev
 PR을 열기 전 최소 검증은 다음이에요.
 
 ```bash
+npx tsc --noEmit
 npm run lint
 npm run build
+git diff --check
 ```
 
 Apps in Toss SDK를 쓰는 기능은 일반 브라우저에서 fallback도 확인해야 해요.
 광고, 햅틱, Safe Area, 배포는 실제 Apps in Toss 환경에서 한 번 더 확인해야 해요.
+IAP 기능은 브라우저에서는 bridge 미지원 실패 안내까지만 확인할 수 있으므로, 구매, 지급 완료, 미결 주문 복원, 환불 회수는 Apps in Toss sandbox나 실제 지원 환경에서 별도로 확인해야 해요.
 
 ## 빌드와 배포
 
@@ -53,6 +56,9 @@ secret 값은 문서, 코드, 로그에 남기지 않아요.
 
 전면형 광고 그룹 ID도 출시 전 실제 값으로 교체해야 해요.
 문서, PR 본문, 로그에는 실제 secret이나 민감한 키 값을 직접 남기지 않아요.
+
+PRO 광고 제거 상품은 Apps in Toss 콘솔의 IAP 상품 설정과 코드의 SKU가 일치해야 해요.
+SKU 자체는 결제 상품 식별자이지만, API key나 secret처럼 문서에 불필요하게 반복 노출하지 않아요.
 
 ## 브랜치와 PR 규칙
 
@@ -85,6 +91,9 @@ Apps in Toss 환경에서는 `SafeAreaInsets.get()`과 `SafeAreaInsets.subscribe
 
 - Apps in Toss 콘솔의 앱 등록명과 `granite.config.ts` 표시 이름이 일치하는지 확인해요.
 - 타이머 배너, 차트 배너, 전면형 광고 그룹 ID가 실제 운영 값으로 연결되어 있는지 확인해요.
+- Apps in Toss IAP 상품이 판매 가능 상태이고, PRO SKU가 코드와 콘솔에서 일치하는지 확인해요.
+- PRO 구매 성공 직후 배너와 휴식 전 광고가 새로고침 없이 사라지는지 확인해요.
+- 미결 주문 복원과 완료/환불 주문 보정이 실제 Apps in Toss 환경에서 동작하는지 확인해요.
 - 앱 내부 커스텀 뒤로가기 버튼이 없는지 확인해요.
 - input 포커스 확대를 만드는 UI가 없는지 확인해요.
 - iOS safe area와 Android navigation area에서 조작 버튼과 토스트가 겹치지 않는지 확인해요.
@@ -97,4 +106,5 @@ Apps in Toss 환경에서는 `SafeAreaInsets.get()`과 `SafeAreaInsets.subscribe
 - 세션별 종료음 선택 UI
 - Toss 유저 식별키 기반 동기화 저장
 - 실제 광고 그룹 ID 교체와 수익화 설정
+- Apps in Toss sandbox에서 PRO IAP 결제, 지급 완료, 환불 회수 최종 확인
 - 출시 심사 이후 운영 지표 확인
