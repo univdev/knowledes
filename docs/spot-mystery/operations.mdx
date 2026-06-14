@@ -1,0 +1,70 @@
+---
+sidebar_position: 4
+---
+
+# 운영과 유지보수
+
+## 로컬 실행
+
+```bash
+pnpm install
+pnpm run dev
+```
+
+기본 개발 서버는 Vite가 제공하는 주소를 사용합니다.
+Playwright e2e는 `127.0.0.1:4180`에서 별도 테스트 서버를 자동으로 띄웁니다.
+
+## 빌드와 검증
+
+```bash
+pnpm run lint
+pnpm run test:unit
+pnpm run test:e2e
+pnpm run build
+```
+
+2026-06-14 MVP 완료 시점의 검증 결과는 다음과 같습니다.
+
+- `pnpm run lint`: 통과
+- `pnpm run test:unit`: 2개 파일, 4개 테스트 통과
+- `pnpm run test:e2e`: 4개 테스트 통과
+- `pnpm run build`: 통과
+
+## 환경 변수
+
+```text
+VITE_GOOGLE_MAPS_API_KEY=
+```
+
+Google Maps API 키는 `.env` 또는 배포 환경의 secret으로만 설정합니다.
+실제 값은 저장소에 커밋하지 않습니다.
+
+## 앱인토스 설정 주의사항
+
+`granite.config.ts`에는 앱 이름, 브랜드 색상, 위치 권한, WebView 속성, 빌드 명령이 들어 있습니다.
+다만 `brand.icon`은 아직 설정하지 않았습니다.
+
+사용자가 앱 로고를 앱인토스 콘솔에 업로드하고 URL을 제공하기 전까지는 다음을 지켜야 합니다.
+
+- `public/images/spot-mystery-logo-600.png`를 `brand.icon`에 넣지 않습니다.
+- 빌드 파일에 묶인 로고 경로를 앱인토스 설정 아이콘으로 사용하지 않습니다.
+- URL이 준비되면 그 URL만 `brand.icon`에 추가합니다.
+
+## UI 복잡도 스냅샷
+
+e2e 테스트는 `test-results/ui-complexity/`에 스냅샷과 JSON 리포트를 생성합니다.
+이 산출물은 검증 결과이며 커밋 대상이 아닙니다.
+
+측정 기준은 다음 항목을 포함합니다.
+
+- 첫 화면 선택지 수
+- 강조 요소 수
+- 제목 계층 수
+- 텍스트 밀도
+- 보이는 요소 수
+
+## 정기 점검
+
+- 실제 Google Maps API 키 연결 후 지도 로딩과 마커 동작을 다시 e2e로 검증합니다.
+- 장소 이미지 URL이 느리거나 실패할 때 fallback 배경이 유지되는지 확인합니다.
+- 콘텐츠가 늘어나면 탐험 화면의 대표 마커 수가 다시 과도해지지 않는지 확인합니다.
