@@ -57,6 +57,23 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
+      label: 'Spot Mystery',
+      items: [
+        'spot-mystery/index',
+        'spot-mystery/architecture',
+        'spot-mystery/features',
+        'spot-mystery/operations',
+        {
+          type: 'category',
+          label: 'Decisions',
+          items: [
+            'spot-mystery/decisions/webview-mvp-design-system',
+          ],
+        },
+      ],
+    },
+    {
+      type: 'category',
       label: '전역 하네스',
       items: [
         'global-harness/index',
